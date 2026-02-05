@@ -1,6 +1,7 @@
 package com.example.back.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,11 @@ public class BlogController {
     @GetMapping
     public ResponseEntity<List<Blog>> getAllBlogs() {
         return ResponseEntity.ok(blogService.getAllBlogs());
+    }
+
+    @GetMapping("/author")
+    public ResponseEntity<Map<String, List<Blog>>> getBlogsByAuthor() {
+        return ResponseEntity.ok(blogService.getBlogsGroupedByAuthor());
     }
 
     @GetMapping("/user/{userId}")

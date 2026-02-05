@@ -1,9 +1,12 @@
 package com.example.back.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.back.entity.Blog;
 import com.example.back.entity.User;
@@ -23,6 +26,12 @@ public class BlogService {
 
     public List<Blog> getAllBlogs() {
         return blogRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, List<Blog>> getBlogsGroupedByAuthor() {
+        return blogRepository.findAllWithUser().stream()
+                .collect(Collectors.groupingBy(blog -> blog.getUser().getName()));
     }
 
     public List<Blog> getBlogsByUserId(Long userId) {
