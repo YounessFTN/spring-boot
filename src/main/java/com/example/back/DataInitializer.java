@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.example.back.entity.Author;
@@ -25,15 +26,17 @@ public class DataInitializer implements CommandLineRunner {
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public DataInitializer(UserRepository userRepository, BlogRepository blogRepository,
                            AuthorRepository authorRepository, BookRepository bookRepository,
-                           CategoryRepository categoryRepository) {
+                           CategoryRepository categoryRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.blogRepository = blogRepository;
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
         this.categoryRepository = categoryRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -47,11 +50,11 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void seedUsers() {
-        User user1 = userRepository.save(new User("Youness", "youness@example.com", "+212612345678"));
-        User user2 = userRepository.save(new User("Alice Martin", "alice.martin@example.com", "+33612345678"));
-        User user3 = userRepository.save(new User("Bob Johnson", "bob.johnson@example.com", "+33687654321"));
-        User user4 = userRepository.save(new User("Sarah Williams", "sarah.williams@example.com", "+33698765432"));
-        User user5 = userRepository.save(new User("David Brown", "david.brown@example.com", "+33712345678"));
+        User user1 = userRepository.save(new User("Youness", "youness@example.com", "+212612345678", passwordEncoder.encode("password123")));
+        User user2 = userRepository.save(new User("Alice Martin", "alice.martin@example.com", "+33612345678", passwordEncoder.encode("password123")));
+        User user3 = userRepository.save(new User("Bob Johnson", "bob.johnson@example.com", "+33687654321", passwordEncoder.encode("password123")));
+        User user4 = userRepository.save(new User("Sarah Williams", "sarah.williams@example.com", "+33698765432", passwordEncoder.encode("password123")));
+        User user5 = userRepository.save(new User("David Brown", "david.brown@example.com", "+33712345678", passwordEncoder.encode("password123")));
 
         System.out.println("✅ 5 utilisateurs seedés");
 
